@@ -171,9 +171,14 @@
     <ClInclude Include="snowpch.h" />
     <ClInclude Include="src\Application\EntryPoint.h" />
     <ClInclude Include="src\Application\Application.h" />
+    <ClInclude Include="src\Platform\PlatformDetection.h" />
     <ClInclude Include="src\Logging\Logging.h" />
+    <ClInclude Include="src\Platform\Platform.h" />
+    <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Platforms\Windows\Platform\WindowsPlatform.cpp" />
+    <ClCompile Include="Platforms\Windows\Window\WindowsWindow.cpp" />
     <ClCompile Include="snowpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
