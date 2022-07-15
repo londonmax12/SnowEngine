@@ -20,6 +20,7 @@ namespace Snow {
 		Window(WindowSpecification spec, PlatformState* state);
 		~Window();
 		bool Init(PlatformState* platformState);
+		bool WantClose() { return m_WantClose; };
 	protected:
 		PlatformState* m_PlatformState;
 		const char* m_ApplicationName;
@@ -27,5 +28,6 @@ namespace Snow {
 		int m_Y;
 		int m_Width;
 		int m_Height;
+		bool m_WantClose = false;
 	};
 }

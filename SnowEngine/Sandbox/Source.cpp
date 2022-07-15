@@ -11,5 +11,5 @@ public:
 
 Snow::Application* Snow::CreateApplication()
 {
-	return new Sandbox(ApplicationSpecification());
+	return new Sandbox(ApplicationSpecification("Sandbox"));
 }
