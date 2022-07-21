@@ -18,7 +18,6 @@ const char* Snow::Memory::MemoryTypeToString(MemoryType type)
 
 void Snow::Memory::MemInit()
 {
-	platform_ZeroMemory(&m_Stats, sizeof(m_Stats));
 }
 
 void Snow::Memory::MemShutdown()

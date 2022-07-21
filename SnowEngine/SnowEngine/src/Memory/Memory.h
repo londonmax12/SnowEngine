@@ -18,7 +18,7 @@ namespace Snow {
 			uint64_t typeAllocations[MEMORYMAXTYPES];
 		};
 
-		static MemoryStats m_Stats;
+		static inline MemoryStats m_Stats = MemoryStats();
 
 		static const char* MemoryTypeToString(MemoryType type);
 	public:

@@ -169,14 +169,25 @@
   <ItemGroup>
     <ClInclude Include="SnowEngine.h" />
     <ClInclude Include="snowpch.h" />
+    <ClInclude Include="src\Application\Base.h" />
     <ClInclude Include="src\Application\EntryPoint.h" />
     <ClInclude Include="src\Application\Application.h" />
+    <ClInclude Include="src\Event\ApplicationEvent.h" />
+    <ClInclude Include="src\Event\Event.h" />
+    <ClInclude Include="src\Event\Input.h" />
+    <ClInclude Include="src\Event\KeyCodes.h" />
+    <ClInclude Include="src\Event\KeyEvent.h" />
+    <ClInclude Include="src\Event\MouseEvent.h" />
+    <ClInclude Include="src\Event\MouseCodes.h" />
+    <ClInclude Include="src\Memory\Memory.h" />
     <ClInclude Include="src\Platform\PlatformDetection.h" />
     <ClInclude Include="src\Logging\Logging.h" />
     <ClInclude Include="src\Platform\Platform.h" />
+    <ClInclude Include="src\Time\DeltaTime.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Platforms\Windows\Event\WindowsInput.cpp" />
     <ClCompile Include="Platforms\Windows\Platform\WindowsPlatform.cpp" />
     <ClCompile Include="Platforms\Windows\Window\WindowsWindow.cpp" />
     <ClCompile Include="snowpch.cpp">
@@ -187,6 +198,7 @@
     </ClCompile>
     <ClCompile Include="src\Application\Application.cpp" />
     <ClCompile Include="src\Logging\Logging.cpp" />
+    <ClCompile Include="src\Memory\Memory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

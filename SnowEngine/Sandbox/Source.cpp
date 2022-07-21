@@ -7,6 +7,10 @@ public:
 	{
 
 	}
+	void OnUpdate(Snow::DeltaTime dt) {
+		if (Snow::Input::IsKeyPressed(Snow::Key::W))
+			SNOW_TRACE("Button 0 pressed");
+	}
 };
 
 Snow::Application* Snow::CreateApplication()

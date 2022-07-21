@@ -1,6 +1,8 @@
 #include "snowpch.h"
 #ifdef SNOW_PLATFORM_WINDOWS
 #include "src/Window/Window.h"
+#include "src/Event/ApplicationEvent.h"
+#include "src/Application/Application.h"
 
 #include <windows.h>
 #include <windowsx.h>
@@ -33,14 +35,19 @@ namespace Snow {
 			state->hwnd = 0;
 		}
 	}
-
 	LRESULT win32ProcessMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (msg) {
 		case WM_ERASEBKGND:
+		{
 			return 1;
+		}
 		case WM_CLOSE:
+		{
+			WindowCloseEvent ev;
+			Application::GetInstance()->OnEvent(ev);
 			return 0;
+		}
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;

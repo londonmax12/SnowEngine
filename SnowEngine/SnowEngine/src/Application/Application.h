@@ -1,8 +1,10 @@
 #pragma once
-
-#include <string>
+#include "snowpch.h"
 
 #include "../Window/Window.h"
+#include "../Time/DeltaTime.h"
+#include "../Event/MouseEvent.h"
+#include "../Event/ApplicationEvent.h"
 
 namespace Snow {
 	struct ApplicationSpecification {
@@ -30,11 +32,21 @@ namespace Snow {
 		~Application();
 
 		void Run();
+
+		virtual void OnUpdate(DeltaTime dt) = 0;
+
+		void OnEvent(Event& e);
+		bool OnWindowClose(Event& e);
+		bool OnWindowResized(Event& e);
+
+		static Application* GetInstance() { return m_Instance; };
 	private:
 		bool m_Running = true;
 
 		Window* m_Window;
 		PlatformState m_State;
+
+		static inline Application* m_Instance;
 	};
 
 	Application* CreateApplication();

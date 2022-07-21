@@ -1,7 +1,7 @@
 #pragma once
 #include "src/Platform/Platform.h"
-
-
+#include "src/Event/Event.h"
+#include "src/Application/Base.h"
 namespace Snow {
 	struct WindowSpecification {
 		const char* windowName;
@@ -16,13 +16,15 @@ namespace Snow {
 
 	class Window {
 	public:
-		Window();
+		Window() = default;
 		Window(WindowSpecification spec, PlatformState* state);
 		~Window();
 		bool Init(PlatformState* platformState);
 		bool WantClose() { return m_WantClose; };
+
+		static inline PlatformState* m_PlatformState;
+
 	protected:
-		PlatformState* m_PlatformState;
 		const char* m_ApplicationName;
 		int m_X;
 		int m_Y;

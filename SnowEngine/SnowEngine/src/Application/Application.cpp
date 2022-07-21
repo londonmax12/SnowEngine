@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "../Memory/Memory.h"
 
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
 Snow::Application::Application(ApplicationSpecification spec)
 {
 	WindowSpecification windowSpec{spec.Name, spec.WindowWidth, spec.WindowHeight};
@@ -12,6 +14,9 @@ Snow::Application::Application(ApplicationSpecification spec)
 	m_Window = new Window(windowSpec, &m_State);
 
 	Memory::MemInit();
+
+	if (!m_Instance)
+		m_Instance = this;
 }
 
 Snow::Application::~Application()
@@ -25,6 +30,34 @@ void Snow::Application::Run()
 	while (m_Running) {
 		if (!platform_PumpMessages(&m_State)) {
 			m_Running = false;
+		}
+		OnUpdate(DeltaTime());
+	}
+}
+
+bool Snow::Application::OnWindowClose(Event& e)
+{
+	m_Running = false;
+	return false;
+}
+
+bool Snow::Application::OnWindowResized(Event& e)
+{
+	return false;
+}
+
+void Snow::Application::OnEvent(Event& e)
+{
+	switch (e.GetEventType()) {
+		case (EventType::WindowClose):
+		{
+			OnWindowClose(e);
+			break;
+		}
+		case (EventType::WindowResize):
+		{
+			OnWindowClose(e);
+			break;
 		}
 	}
 }
