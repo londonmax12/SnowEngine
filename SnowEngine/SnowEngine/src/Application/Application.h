@@ -3,8 +3,10 @@
 
 #include "../Window/Window.h"
 #include "../Time/DeltaTime.h"
+#include "../Time/Clock.h"
 #include "../Event/MouseEvent.h"
 #include "../Event/ApplicationEvent.h"
+#include "../Renderer/Renderer.h"
 
 namespace Snow {
 	struct ApplicationSpecification {
@@ -17,6 +19,9 @@ namespace Snow {
 		int WindowHeight = 900;
 
 		bool WindowDecorated = true;
+
+		bool LimitFramerate = false;
+		int FrameCap = 60;
 
 		ApplicationSpecification();
 		ApplicationSpecification(const char* name,
@@ -45,6 +50,12 @@ namespace Snow {
 
 		Window* m_Window;
 		PlatformState m_State;
+
+		Clock m_Clock;
+
+		ApplicationSpecification m_Spec;
+
+		Renderer m_Renderer;
 
 		static inline Application* m_Instance;
 	};
