@@ -14,5 +14,9 @@ namespace Snow {
 	private:
 		VkInstance m_Instance;
 		VkAllocationCallbacks* m_Allocator;
+#ifdef _DEBUG
+		VkDebugUtilsMessengerEXT m_Messenger;
+#endif // _DEBUG
+
 	};
 }

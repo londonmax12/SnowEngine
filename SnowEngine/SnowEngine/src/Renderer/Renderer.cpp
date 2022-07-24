@@ -3,7 +3,12 @@
 
 bool Snow::Renderer::Init(const char* appName, PlatformState* state)
 {
-	m_Backend = CreateBackend(RENDER_TYPE_VULKAN);
+	RendererType type = RENDER_TYPE_VULKAN;
+#ifdef SNOW_RENDERER_VULKAN
+	type = RendererType::RENDER_TYPE_VULKAN;
+#endif // SNOW_RENDERER_VULKAN
+
+	m_Backend = CreateBackend(type);
 
 	if (!m_Backend->Init(appName, state)) {
 		SNOW_FATAL("Failed to init renderer backend");

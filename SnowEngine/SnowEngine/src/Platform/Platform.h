@@ -6,6 +6,7 @@ namespace Snow {
 		void* internalState;
 	};
 
+	// System platform
 	void platform_Init();
 
 	bool platform_PumpMessages(PlatformState* state);
@@ -21,4 +22,8 @@ namespace Snow {
 
 	double platform_GetAbsTime();
 	void platform_Sleep(int ms);
+
+
+	// Renderer Platform
+	void platform_GetExtensionNames(std::vector<const char*>* arr);
 }

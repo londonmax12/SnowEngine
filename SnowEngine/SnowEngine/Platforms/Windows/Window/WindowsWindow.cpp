@@ -4,7 +4,6 @@
 #include "src/Event/ApplicationEvent.h"
 #include "src/Application/Application.h"
 
-#include <windows.h>
 #include <windowsx.h>
 
 namespace Snow {

@@ -76,4 +76,8 @@ void Snow::platform_Sleep(int ms)
 {
 	Sleep(ms);
 }
+void Snow::platform_GetExtensionNames(std::vector<const char*>* arr)
+{
+	arr->push_back("VK_KHR_win32_surface");
+}
 #endif
