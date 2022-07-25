@@ -184,6 +184,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Platforms\Vulkan\Renderer\VulkanBackend.h" />
+    <ClInclude Include="Platforms\Vulkan\Renderer\VulkanDevice.h" />
+    <ClInclude Include="Platforms\Windows\WindowsInternalState.h" />
     <ClInclude Include="SnowEngine.h" />
     <ClInclude Include="snowpch.h" />
     <ClInclude Include="src\Application\Base.h" />
@@ -208,6 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Platforms\Vulkan\Renderer\VulkanBackend.cpp" />
+    <ClCompile Include="Platforms\Vulkan\Renderer\VulkanDevice.cpp" />
     <ClCompile Include="Platforms\Windows\Event\WindowsInput.cpp" />
     <ClCompile Include="Platforms\Windows\Platform\WindowsPlatform.cpp" />
     <ClCompile Include="Platforms\Windows\Window\WindowsWindow.cpp" />

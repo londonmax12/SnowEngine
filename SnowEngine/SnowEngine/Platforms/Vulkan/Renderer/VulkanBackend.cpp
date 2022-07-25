@@ -27,9 +27,18 @@ VKAPI_ATTR VkBool32 VKAPI_CALL vkDebugCallback(VkDebugUtilsMessageSeverityFlagBi
 	}
 	return VK_FALSE;
 }
-bool Snow::VulkanBackend::Init(const char* applicationName, PlatformState* m_PlatformState)
+Snow::VulkanBackend::VulkanBackend()
+{
+}
+Snow::VulkanBackend::~VulkanBackend()
+{
+	delete m_Device;
+}
+bool Snow::VulkanBackend::Init(const char* applicationName, PlatformState* platformState)
 {
 	m_Allocator = 0;
+
+	m_Device = new VulkanDevice();
 
 	VkApplicationInfo appInfo{};
 	appInfo.apiVersion = VK_API_VERSION_1_3;
@@ -112,6 +121,13 @@ bool Snow::VulkanBackend::Init(const char* applicationName, PlatformState* m_Pla
 	PFN_vkCreateDebugUtilsMessengerEXT func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(m_Instance, "vkCreateDebugUtilsMessengerEXT");
 	VkResult result = func(m_Instance, &debugCreateInfo, m_Allocator, &m_Messenger);
 #endif
+
+	SNOW_DEBUG("Creating Vulkan surface");
+	if (!platform_CreateVulkanSurface(platformState, m_Instance, m_Allocator, &m_Surface))
+	{
+		SNOW_ERROR("Failed to create platform surface");
+		return false;
+	}
 
 	SNOW_INFO("Created Vulkan instance");
 	return true;

@@ -6,12 +6,9 @@
 
 #include <windowsx.h>
 
-namespace Snow {
-	struct InternalState {
-		HINSTANCE instance;
-		HWND hwnd;
-	};
+#include "../WindowsInternalState.h"
 
+namespace Snow {
 	Window::Window(WindowSpecification spec, PlatformState* state)
 	{
 		m_X = spec.x;

@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef SNOW_RENDERER_VULKAN
+#include <vulkan/vulkan.h>
+#endif
 namespace Snow {
 	struct PlatformState
 	{
@@ -25,5 +28,8 @@ namespace Snow {
 
 
 	// Renderer Platform
+#ifdef SNOW_RENDERER_VULKAN
 	void platform_GetExtensionNames(std::vector<const char*>* arr);
+	bool platform_CreateVulkanSurface(PlatformState* platState, VkInstance instance, VkAllocationCallbacks* allocator, VkSurfaceKHR* out);
+#endif // SNOW_RENDERER_VULKAN
 }

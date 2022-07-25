@@ -1,8 +1,15 @@
 #include "snowpch.h"
 
 #ifdef SNOW_PLATFORM_WINDOWS
-
 #include "src/Platform/Platform.h"
+#include "../WindowsInternalState.h"
+
+#ifdef SNOW_RENDERER_VULKAN
+#define VK_USE_PLATFORM_WIN32_KHR
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_win32.h>
+#endif // SNOW_RENDERER_VULKAN
+
 
 namespace Snow {
 	static double g_ClockFrequency;
@@ -76,8 +83,26 @@ void Snow::platform_Sleep(int ms)
 {
 	Sleep(ms);
 }
+#ifdef SNOW_RENDERER_VULKAN
 void Snow::platform_GetExtensionNames(std::vector<const char*>* arr)
 {
 	arr->push_back("VK_KHR_win32_surface");
 }
+bool Snow::platform_CreateVulkanSurface(PlatformState* platState, VkInstance instance, VkAllocationCallbacks* allocator, VkSurfaceKHR* out)
+{
+	Snow::InternalState* state = (Snow::InternalState*)platState->internalState;
+	VkWin32SurfaceCreateInfoKHR createInfo{};
+	createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	createInfo.hinstance = state->instance;
+	createInfo.hwnd = state->hwnd;
+	
+	VkResult res = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, out);
+	if (res != VK_SUCCESS) {
+		SNOW_FATAL("Failed to create Vulkan Win32 surface");
+		return false;
+	}
+	state->surface = *out;
+	return true;
+}
+#endif
 #endif
