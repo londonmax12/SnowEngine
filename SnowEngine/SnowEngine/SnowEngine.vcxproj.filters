@@ -87,6 +87,9 @@
     <ClInclude Include="Platforms\Windows\WindowsInternalState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Platforms\Vulkan\Renderer\InfoStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="snowpch.cpp">

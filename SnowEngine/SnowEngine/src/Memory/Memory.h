@@ -5,6 +5,7 @@ namespace Snow {
 	enum MemoryType
 	{
 		MEMORY_TYPE_OTHER,
+		MEMORY_TYPE_RENDERER,
 
 		MEMORYMAXTYPES,
 	};

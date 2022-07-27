@@ -38,8 +38,6 @@ bool Snow::VulkanBackend::Init(const char* applicationName, PlatformState* platf
 {
 	m_Allocator = 0;
 
-	m_Device = new VulkanDevice();
-
 	VkApplicationInfo appInfo{};
 	appInfo.apiVersion = VK_API_VERSION_1_3;
 	appInfo.pApplicationName = applicationName;
@@ -130,6 +128,9 @@ bool Snow::VulkanBackend::Init(const char* applicationName, PlatformState* platf
 	}
 
 	SNOW_INFO("Created Vulkan instance");
+
+
+	m_Device = new VulkanDevice(m_Instance, m_Surface);
 	return true;
 }
 

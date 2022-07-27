@@ -183,6 +183,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Platforms\Vulkan\Renderer\InfoStructs.h" />
     <ClInclude Include="Platforms\Vulkan\Renderer\VulkanBackend.h" />
     <ClInclude Include="Platforms\Vulkan\Renderer\VulkanDevice.h" />
     <ClInclude Include="Platforms\Windows\WindowsInternalState.h" />
