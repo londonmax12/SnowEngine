@@ -3,9 +3,10 @@
 
 #include "src/Memory/Memory.h"
 
-Snow::VulkanDevice::VulkanDevice(VkInstance instance, VkSurfaceKHR surface)
+Snow::VulkanDevice::VulkanDevice(VkInstance instance, VkSurfaceKHR surface, VkAllocationCallbacks* allocator)
 {
 	m_Instance = instance;
+	m_Allocator = allocator;
 
 	uint32_t deviceCount = 0;
 	vkEnumeratePhysicalDevices(instance, &deviceCount, 0);
@@ -25,14 +26,13 @@ Snow::VulkanDevice::VulkanDevice(VkInstance instance, VkSurfaceKHR surface)
 		VkPhysicalDeviceMemoryProperties memory;
 		vkGetPhysicalDeviceMemoryProperties(a[i], &memory);
 
-
 		DeviceRequirements info{};
 		info.graphics = true;
 		info.present = true;
 		info.transfer = true;
 
 		info.samplerAnisomtropy = true;
-		info.discreteGpu = true; 
+		info.discreteGpu = true;
 		info.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
 		QueueFamilyInfo queueInfo{};
@@ -95,9 +95,59 @@ Snow::VulkanDevice::VulkanDevice(VkInstance instance, VkSurfaceKHR surface)
 		return;
 	}
 	delete[] a;
+
+	// Logical Device
+	bool presentSharesGraphicsQueue = m_GraphicsIndex == m_PresentIndex;
+	bool transferSharesGraphicsQueue = m_GraphicsIndex == m_TransferIndex;
+	int indexCount = 1;
+	if (!presentSharesGraphicsQueue) {
+		indexCount++;
+	}
+	if (!transferSharesGraphicsQueue) {
+		indexCount++;
+	}
+	std::vector<int> indices(indexCount);
+	int index = 0;
+	indices[index++] = m_GraphicsIndex;
+	if (!presentSharesGraphicsQueue) {
+		indices[index++] = m_PresentIndex;
+	}
+	if (!transferSharesGraphicsQueue) {
+		indices[index++] = m_TransferIndex;
+	}
+	std::vector<VkDeviceQueueCreateInfo> queueCreateInfo(indexCount);
+	for (int i = 0; i < indexCount; i++) {
+		queueCreateInfo[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo[i].queueFamilyIndex = indices[i];
+		queueCreateInfo[i].queueCount = 1;
+		if (indices[i] == m_GraphicsIndex) {
+			queueCreateInfo[i].queueCount = 2;
+		}
+		queueCreateInfo[i].flags = 0;
+		queueCreateInfo[i].pNext = nullptr;
+		float queuePriority = 1.f;
+		queueCreateInfo[i].pQueuePriorities = &queuePriority;
+	}
+
+	VkPhysicalDeviceFeatures deviceFeatures{};
+	deviceFeatures.samplerAnisotropy = VK_TRUE;
+
+	VkDeviceCreateInfo deviceCreateInfo{};
+	deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	deviceCreateInfo.queueCreateInfoCount = indexCount;
+	deviceCreateInfo.pQueueCreateInfos = queueCreateInfo.data();
+	deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
+	deviceCreateInfo.enabledExtensionCount = 1;
+	const char* extensionNames = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
+	deviceCreateInfo.ppEnabledExtensionNames = &extensionNames;
+
+	vkCreateDevice(m_PhysicalDevice, &deviceCreateInfo, allocator, &m_LogicalDevice);
+	SNOW_INFO("Logical device created");
 }
 Snow::VulkanDevice::~VulkanDevice()
 {
+	if (m_LogicalDevice)
+		vkDestroyDevice(m_LogicalDevice, m_Allocator);
 }
 
 bool Snow::VulkanDevice::DeviceMeetsRequirements(VkPhysicalDevice device, VkSurfaceKHR surface, const VkPhysicalDeviceProperties* properties, const VkPhysicalDeviceFeatures* features, const DeviceRequirements requirements, QueueFamilyInfo* outQueueFamilyInfo, SwapChainSupportInfo* outSwapchainSupport)

@@ -25,7 +25,7 @@ namespace Snow {
 
 	class VulkanDevice {
 	public:
-		VulkanDevice(VkInstance instance, VkSurfaceKHR surface);
+		VulkanDevice(VkInstance instance, VkSurfaceKHR surface, VkAllocationCallbacks* allocator);
 		~VulkanDevice();
 	private:
 		bool DeviceMeetsRequirements(VkPhysicalDevice device,
@@ -48,5 +48,6 @@ namespace Snow {
 		VkPhysicalDeviceProperties m_Properties;
 		VkPhysicalDeviceFeatures m_Features;
 		VkPhysicalDeviceMemoryProperties m_Memory;
+		VkAllocationCallbacks* m_Allocator;
 	};
 }
